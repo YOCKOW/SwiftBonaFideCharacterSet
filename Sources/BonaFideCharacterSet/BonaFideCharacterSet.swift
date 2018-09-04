@@ -8,6 +8,9 @@
 import Ranges
 import Predicate
 
+/// A set of `CharacterExpression`s.
+public typealias CharacterExpressionSet<C> = TotallyOrderedSet<C> where C:CharacterExpression
+
 /// # BonaFideCharacterSet
 ///
 /// A set of characters.
@@ -17,17 +20,17 @@ import Predicate
 ///
 /// Unlike `Foundation.CharacterSet`, this may be really a set of `Character`s.
 ///
-public typealias BonaFideCharacterSet = TotallyOrderedSet<Character>
+public typealias BonaFideCharacterSet = CharacterExpressionSet<Character>
 
 /// # DecomposedCharacterSet
 ///
 /// A set of `DecomposedCharacter`s.
-public typealias DecomposedCharacterSet = TotallyOrderedSet<DecomposedCharacter>
+public typealias DecomposedCharacterSet = CharacterExpressionSet<DecomposedCharacter>
 
 /// # PrecomposedCharacterSet
 ///
 /// A set of `PrecomposedCharacter`s.
-public typealias PrecomposedCharacterSet = TotallyOrderedSet<PrecomposedCharacter>
+public typealias PrecomposedCharacterSet = CharacterExpressionSet<PrecomposedCharacter>
 
 extension TotallyOrderedSet where Element: CharacterExpression {
   /// Initializes with characters contained in `string`.
