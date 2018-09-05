@@ -77,6 +77,14 @@ print(PrecomposedCharacter("Ä") < PrecomposedCharacter("B"))
 There are `DecomposedCharacterSet` and `PrecomposedCharacterSet`
 provided by this library.
 
+```Swift
+let dset = DecomposedCharacterSet(charactersIn:"A"..<"B")
+print(dset.contains("Ä")) // Prints "true"
+
+let pset = PrecomposedCharacterSet(charactersIn:"A"..<"B")
+print(pset.contains("Ä")) // Prints "false"
+```
+
 
 # Requirements
 
