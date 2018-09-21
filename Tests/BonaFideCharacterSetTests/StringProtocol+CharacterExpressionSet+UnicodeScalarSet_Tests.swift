@@ -23,8 +23,19 @@ final class StringProtocol_CharacterExpressionSet_UnicodeScalarSet_Tests: XCTest
     )
   }
   
+  func test_consistsOf() {
+    let string = "AB⃝CD"
+    
+    let characters = BonaFideCharacterSet(charactersIn:"A"..."D")
+    XCTAssertTrue(string.consists(of:characters))
+    
+    let scalars = UnicodeScalarSet(unicodeScalarsIn:"A"..."D")
+    XCTAssertFalse(string.consists(of:scalars))
+  }
+  
   static var allTests = [
     ("testSplit", testSplit),
+    ("test_consistsOf", test_consistsOf),
   ]
 }
 

@@ -25,6 +25,16 @@ extension StringProtocol {
   {
     return self.split(separator:separator, omittingEmptySubsequences:false).map{ String($0) }
   }
+  
+  /// Returns true if all of characters are contained in `characters`
+  public func consists<C>(of characters:CharacterExpressionSet<C>) -> Bool
+    where C:CharacterExpression
+  {
+    for character in self {
+      guard characters.contains(C(character)) else { return false }
+    }
+    return true
+  }
 }
 
 extension StringProtocol {
@@ -45,5 +55,13 @@ extension StringProtocol {
   /// that have been divided by characters in the given set.
   public func components(separatedBy separator:UnicodeScalarSet) -> [String] {
     return self.split(separator:separator, omittingEmptySubsequences:false).map{ String($0) }
+  }
+  
+  /// Returns true if all of Unicode scalars are contained in `scalars`
+  public func consists(of scalars:UnicodeScalarSet) -> Bool {
+    for scalar in self.unicodeScalars {
+      guard scalars.contains(scalar) else { return false }
+    }
+    return true
   }
 }
