@@ -35,6 +35,31 @@ extension StringProtocol {
     }
     return true
   }
+  
+  /// Returns a new string made by removing from both ends of the characters
+  /// contained in a given character set.
+  public func trimmingCharacters<C>(in set:CharacterExpressionSet<C>) -> String 
+    where C:CharacterExpression
+  {
+    var ii = self.startIndex
+    while true {
+      if ii == self.endIndex { return "" }
+      if !set.contains(C(self[ii])) { break }
+      ii = self.index(after:ii)
+    }
+    
+    let start = ii
+    
+    ii = self.endIndex
+    while true {
+      ii = self.index(before:ii)
+      if !set.contains(C(self[ii])) { break }
+      
+      if ii == self.startIndex { return "" }
+    }
+    
+    return String(self[start...ii])
+  }
 }
 
 extension StringProtocol {
@@ -63,5 +88,29 @@ extension StringProtocol {
       guard scalars.contains(scalar) else { return false }
     }
     return true
+  }
+  
+  /// Returns a new string made by removing from both ends of the characters
+  /// contained in a given character set.
+  public func trimmingUnicodeScalars(in set:UnicodeScalarSet) -> String {
+    let scalars = self.unicodeScalars
+    var ii = scalars.startIndex
+    
+    while true {
+      if ii == scalars.endIndex { return "" }
+      if !set.contains(scalars[ii]) { break }
+      ii = scalars.index(after:ii)
+    }
+    
+    let start = ii
+    
+    ii = scalars.endIndex
+    while true {
+      ii = scalars.index(before:ii)
+      if !set.contains(scalars[ii]) { break }
+      if ii == scalars.startIndex { return "" }
+    }
+    
+    return String(String.UnicodeScalarView(scalars[start...ii]))
   }
 }

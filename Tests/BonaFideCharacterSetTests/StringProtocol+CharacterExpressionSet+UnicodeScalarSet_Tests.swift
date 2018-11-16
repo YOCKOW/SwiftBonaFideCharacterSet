@@ -33,9 +33,27 @@ final class StringProtocol_CharacterExpressionSet_UnicodeScalarSet_Tests: XCTest
     XCTAssertFalse(string.consists(of:scalars))
   }
   
+  func test_trimming() {
+    let string = "ABCDEFGFEDCBA"
+    
+    let characters = BonaFideCharacterSet(charactersIn:"A"..."D")
+    let scalars = UnicodeScalarSet(unicodeScalarsIn:"A"..."D")
+    
+    XCTAssertEqual(string.trimmingCharacters(in:characters), "EFGFE")
+    XCTAssertEqual(string.trimmingUnicodeScalars(in:scalars), "EFGFE")
+    
+    
+    let characters2 = BonaFideCharacterSet(charactersIn:"A"..."Z")
+    let scalars2 = UnicodeScalarSet(unicodeScalarsIn:"A"..."Z")
+    
+    XCTAssertEqual(string.trimmingCharacters(in:characters2), "")
+    XCTAssertEqual(string.trimmingUnicodeScalars(in:scalars2), "")
+  }
+  
   static var allTests = [
     ("testSplit", testSplit),
     ("test_consistsOf", test_consistsOf),
+    ("test_trimming", test_trimming),
   ]
 }
 
