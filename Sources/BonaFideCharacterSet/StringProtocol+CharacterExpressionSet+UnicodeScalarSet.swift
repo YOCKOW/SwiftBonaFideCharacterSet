@@ -38,7 +38,9 @@ extension StringProtocol {
   
   /// Returns a new string made by removing from both ends of the characters
   /// contained in a given character set.
-  public func trimmingCharacters<C>(in set:CharacterExpressionSet<C>) -> String {
+  public func trimmingCharacters<C>(in set:CharacterExpressionSet<C>) -> String 
+    where C:CharacterExpression
+  {
     var ii = self.startIndex
     while true {
       if ii == self.endIndex { return "" }
