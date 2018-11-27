@@ -8,6 +8,7 @@
 import XCTest
 @testable import BonaFideCharacterSet
 
+import Foundation
 import Ranges
 
 final class StringProtocol_CharacterExpressionSet_UnicodeScalarSet_Tests: XCTestCase {
@@ -50,10 +51,21 @@ final class StringProtocol_CharacterExpressionSet_UnicodeScalarSet_Tests: XCTest
     XCTAssertEqual(string.trimmingUnicodeScalars(in:scalars2), "")
   }
   
+  func test_percentEncoding() {
+    let set_f = Foundation.CharacterSet(charactersIn:"ABCDEFGHIJKLMNOPQRSTUVWXYZ")
+    let set_u = UnicodeScalarSet(unicodeScalarsIn:"ABCDEFGHIJKLMNOPQRSTUVWXYZ")
+    
+    let string = "「あいうえお」そして漢字。"
+    
+    XCTAssertEqual(string.addingPercentEncoding(withAllowedCharacters:set_f)?.uppercased(),
+                   string.addingPercentEncoding(withAllowedUnicodeScalars:set_u)?.uppercased())
+  }
+  
   static var allTests = [
     ("testSplit", testSplit),
     ("test_consistsOf", test_consistsOf),
     ("test_trimming", test_trimming),
+    ("test_percentEncoding", test_percentEncoding),
   ]
 }
 
