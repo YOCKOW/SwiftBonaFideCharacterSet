@@ -88,11 +88,10 @@ print(pset.contains("Ä")) // Prints "false"
 
 # Requirements
 
-- Swift 4.1, 4.2
+- Swift 5 (Compatibility mode for Swift 4 or 4.2 is also OK.)
 - macOS or Linux
 
 ## Dependencies
-
 
 - [SwiftRanges](https://github.com/YOCKOW/SwiftRanges)
 - [SwiftPredicate](https://github.com/YOCKOW/SwiftPredicate)
