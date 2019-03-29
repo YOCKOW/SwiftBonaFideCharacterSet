@@ -1,6 +1,6 @@
 /* *************************************************************************************************
  NormalizedCharacter.swift
-   © 2018 YOCKOW.
+   © 2018-2019 YOCKOW.
      Licensed under MIT License.
      See "LICENSE.txt" for more information.
  ************************************************************************************************ */
@@ -71,7 +71,7 @@ extension NormalizedCharacter {
 }
 
 extension NormalizedCharacter {
-  #if swift(>=4.2)
+  #if compiler(>=4.2)
   public func hash(into hasher:inout Hasher) {
     for scalar in self.unicodeScalars {
       hasher.combine(scalar)
