@@ -36,10 +36,17 @@ final class BonaFideCharacterSetTests: XCTestCase {
     XCTAssertTrue(flags.contains("🇯🇵"))
   }
   
+  func test_initWithSequence() {
+    let set = BonaFideCharacterSet(charactersIn:["A", "C", "E"])
+    XCTAssertTrue(set.contains("A"))
+    XCTAssertFalse(set.contains("B"))
+  }
+  
   
   static var allTests = [
     ("testExample", testExample),
     ("testFlags", testFlags),
+    ("test_initWithSequence", test_initWithSequence),
   ]
 }
 
