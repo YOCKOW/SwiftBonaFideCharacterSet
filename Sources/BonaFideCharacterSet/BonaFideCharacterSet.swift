@@ -39,6 +39,13 @@ extension TotallyOrderedSet where Element: CharacterExpression {
     self.init(elementsIn:ranges)
   }
   
+  public init<S>(charactersIn characters: S) where S: Sequence, S.Element == Element {
+    self.init()
+    for character in characters {
+      self.insert(character)
+    }
+  }
+  
   /// Initializes with characters contained in `ranges`.
   public init(charactersIn ranges:MultipleRanges<Element>) {
     self.init(elementsIn:ranges)
