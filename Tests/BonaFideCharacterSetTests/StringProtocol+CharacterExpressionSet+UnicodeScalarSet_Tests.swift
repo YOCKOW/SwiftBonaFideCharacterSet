@@ -1,6 +1,6 @@
 /* *************************************************************************************************
  StringProtocol+CharacterExpressionSet+UnicodeScalarSet_Tests.swift
-   © 2018 YOCKOW.
+   © 2018-2019 YOCKOW.
      Licensed under MIT License.
      See "LICENSE.txt" for more information.
  ************************************************************************************************ */
@@ -60,13 +60,6 @@ final class StringProtocol_CharacterExpressionSet_UnicodeScalarSet_Tests: XCTest
     XCTAssertEqual(string.addingPercentEncoding(withAllowedCharacters:set_f)?.uppercased(),
                    string.addingPercentEncoding(withAllowedUnicodeScalars:set_u)?.uppercased())
   }
-  
-  static var allTests = [
-    ("testSplit", testSplit),
-    ("test_consistsOf", test_consistsOf),
-    ("test_trimming", test_trimming),
-    ("test_percentEncoding", test_percentEncoding),
-  ]
 }
 
 

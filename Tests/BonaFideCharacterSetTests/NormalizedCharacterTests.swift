@@ -1,6 +1,6 @@
 /* *************************************************************************************************
  NormalizedCharacterTests.swift
-   © 2018 YOCKOW.
+   © 2018-2019 YOCKOW.
      Licensed under MIT License.
      See "LICENSE.txt" for more information.
  ************************************************************************************************ */
@@ -46,8 +46,4 @@ final class NormalizedCharacterTests: XCTestCase {
     XCTAssertTrue(precomposed_uDiaeresisMacron < precomposed_uDiaeresisMacron_circle)
     XCTAssertTrue(precomposed_v < precomposed_uDiaeresisMacron_circle)
   }
-  
-  static var allTests = [
-    ("testComparison", testComparison),
-  ]
 }

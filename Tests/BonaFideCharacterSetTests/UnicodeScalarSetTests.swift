@@ -18,10 +18,6 @@ final class UnicodeScalarSetTests: XCTestCase {
     XCTAssertEqual(set1, set2)
     XCTAssertEqual(set1, set3)
   }
-  
-  static var allTests = [
-    ("testInitialization", testInitialization),
-  ]
 }
 
 
