@@ -1,6 +1,6 @@
 /***************************************************************************************************
  BonaFideCharacterSetTests.swift
-   © 2017-2018 YOCKOW.
+   © 2017-2019 YOCKOW.
      Licensed under MIT License.
      See "LICENSE.txt" for more information.
  **************************************************************************************************/
@@ -41,12 +41,5 @@ final class BonaFideCharacterSetTests: XCTestCase {
     XCTAssertTrue(set.contains("A"))
     XCTAssertFalse(set.contains("B"))
   }
-  
-  
-  static var allTests = [
-    ("testExample", testExample),
-    ("testFlags", testFlags),
-    ("test_initWithSequence", test_initWithSequence),
-  ]
 }
 
