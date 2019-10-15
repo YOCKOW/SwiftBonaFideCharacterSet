@@ -113,7 +113,49 @@ extension StringProtocol {
     
     return String(String.UnicodeScalarView(scalars[start...ii]))
   }
+}
+
+
+private let _hex: [Unicode.Scalar] = ["0", "1", "2", "3", "4", "5", "6", "7",
+                                      "8", "9", "A", "B", "C", "D", "E", "F"]
+extension UInt8 {
+  fileprivate var _percentEncoded: String.UnicodeScalarView {
+    return .init(["%", _hex[Int(self >> 4)], _hex[Int(self & 0x0F)]])
+  }
+}
+extension Unicode.Scalar {
+  fileprivate var _utf8: AnyRandomAccessCollection<UInt8> {
+    #if compiler(>=5.1)
+    if #available(macOS 10.15, *) {
+      return .init(self.utf8)
+    }
+    #endif
+    
+    let value = self.value
+    if value <= 0x7F {
+      return .init([UInt8(value)])
+    } else if value <= 0x07FF {
+      return .init([UInt8(0b11000000) | UInt8(value >> 6),
+                    UInt8(0b10000000) | UInt8(value & 0b00111111)])
+    } else if value <= 0xFFFF {
+      return .init([UInt8(0b11100000) | UInt8(value >> 12),
+                    UInt8(0b10000000) | UInt8(value >> 6 & 0b00111111),
+                    UInt8(0b10000000) | UInt8(value & 0b00111111)])
+    } else if value <= 0x1FFFFF {
+      return .init([UInt8(0b11110000) | UInt8(value >> 18),
+                    UInt8(0b10000000) | UInt8(value >> 12 & 0b00111111),
+                    UInt8(0b10000000) | UInt8(value >> 6 & 0b00111111),
+                    UInt8(0b10000000) | UInt8(value & 0b00111111)])
+    } else {
+      fatalError("Unexpected Unicode Scalar Value.")
+    }
+  }
   
+  fileprivate var _percentEncoded: String.UnicodeScalarView {
+    return .init(self._utf8.flatMap({ $0._percentEncoded }))
+  }
+}
+extension StringProtocol {
   /// like `func addingPercentEncoding(withAllowedCharacters allowedCharacters: CharacterSet) -> String?`
   public func addingPercentEncoding(withAllowedUnicodeScalars allowedScalars:UnicodeScalarSet) -> String? {
     var output = String.UnicodeScalarView()
@@ -121,43 +163,7 @@ extension StringProtocol {
       if allowedScalars.contains(scalar) {
         output.append(scalar)
       } else {
-        let value = scalar.value
-        if value <= 0x007F {
-          output.append("%")
-          output.append(contentsOf:String(value, radix:16).uppercased().unicodeScalars)
-        } else if value <= 0x07FF {
-          let bytes:(UInt8, UInt8) = (UInt8(0b11000000) | UInt8(value >> 6),
-                                      UInt8(0b10000000) | UInt8(value & 0b00111111))
-          output.append("%")
-          output.append(contentsOf:String(bytes.0, radix:16).uppercased().unicodeScalars)
-          output.append("%")
-          output.append(contentsOf:String(bytes.1, radix:16).uppercased().unicodeScalars)
-        } else if value <= 0xFFFF {
-          let bytes:(UInt8, UInt8, UInt8) = (UInt8(0b11100000) | UInt8(value >> 12),
-                                             UInt8(0b10000000) | UInt8(value >> 6 & 0b00111111),
-                                             UInt8(0b10000000) | UInt8(value & 0b00111111))
-          output.append("%")
-          output.append(contentsOf:String(bytes.0, radix:16).uppercased().unicodeScalars)
-          output.append("%")
-          output.append(contentsOf:String(bytes.1, radix:16).uppercased().unicodeScalars)
-          output.append("%")
-          output.append(contentsOf:String(bytes.2, radix:16).uppercased().unicodeScalars)
-        } else if value <= 0x1FFFFF {
-          let bytes:(UInt8, UInt8, UInt8, UInt8) = (UInt8(0b11110000) | UInt8(value >> 18),
-                                                    UInt8(0b10000000) | UInt8(value >> 12 & 0b00111111),
-                                                    UInt8(0b10000000) | UInt8(value >> 6 & 0b00111111),
-                                                    UInt8(0b10000000) | UInt8(value & 0b00111111))
-          output.append("%")
-          output.append(contentsOf:String(bytes.0, radix:16).uppercased().unicodeScalars)
-          output.append("%")
-          output.append(contentsOf:String(bytes.1, radix:16).uppercased().unicodeScalars)
-          output.append("%")
-          output.append(contentsOf:String(bytes.2, radix:16).uppercased().unicodeScalars)
-          output.append("%")
-          output.append(contentsOf:String(bytes.3, radix:16).uppercased().unicodeScalars)
-        } else {
-          return nil
-        }
+        output.append(contentsOf: scalar._percentEncoded)
       }
     }
     return String(output)
