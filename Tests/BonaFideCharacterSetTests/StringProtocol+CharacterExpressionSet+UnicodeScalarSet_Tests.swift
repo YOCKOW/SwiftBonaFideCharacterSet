@@ -55,7 +55,7 @@ final class StringProtocol_CharacterExpressionSet_UnicodeScalarSet_Tests: XCTest
     let set_f = Foundation.CharacterSet(charactersIn:"ABCDEFGHIJKLMNOPQRSTUVWXYZ")
     let set_u = UnicodeScalarSet(unicodeScalarsIn:"ABCDEFGHIJKLMNOPQRSTUVWXYZ")
     
-    let string = "「あいうえお」そして漢字。"
+    let string = "1行目\n2行目\n3行目"
     
     XCTAssertEqual(string.addingPercentEncoding(withAllowedCharacters:set_f)?.uppercased(),
                    string.addingPercentEncoding(withAllowedUnicodeScalars:set_u)?.uppercased())
